@@ -1,11 +1,11 @@
 
 /*
---------------------------------------------------
-|                                                |
-|		Code Written By : Rahul Gupta.           |
-|  *** Explsoion Animation using JavaScript***   |
-|                                                |
---------------------------------------------------
+--------------------------------------------------------------------
+|                                                                  |
+|		           Written By : Rahul Gupta.                       |
+|   *** Explosion Animation using HTML5 canvas and JavaScript***   |                                      
+|                                                                  |
+--------------------------------------------------------------------
 */
 
 const canvas=document.getElementById('canvas');
