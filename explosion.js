@@ -1,3 +1,13 @@
+
+/*
+	--------------------------------------------------
+	|                                                |
+	|		Code Written By : Rahul Gupta.           |
+	|  *** Explsoion Animation using JavaScript***   |
+    |                                                |
+	--------------------------------------------------
+*/
+
 const canvas=document.getElementById('canvas');
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
