@@ -2,7 +2,7 @@
 /*
 --------------------------------------------------------------------
 |                                                                  |
-|		           Written By : Rahul Gupta.                       |
+|		   Written By : Rahul Gupta.                       |
 |   *** Explosion Animation using HTML5 canvas and JavaScript***   |                                      
 |                                                                  |
 --------------------------------------------------------------------
