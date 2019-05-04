@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Explosion</title>
+		<title>Fireworks By Rahul</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="style.css">
+		<meta author='Rahul Gupta' description='Fireworks simulation using Vanilla JS and HTML5 canvas'>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			body,html{
+				overflow: hidden;
+			}
+		</style>
 	</head>
-	<body onload="main_explosion();">
-		<canvas id="canvas"></canvas>
-		<script type="text/javascript" src="explosion.js"></script>
+	<body onload="start_fireworks_effect();">
+		<canvas id="fireworks"></canvas>
+		<script type="text/javascript" src="fireworks.js"></script>
 	</body>
 </html>
