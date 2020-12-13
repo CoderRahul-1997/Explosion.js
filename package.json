@@ -2,7 +2,7 @@
   "name": "particles",
   "version": "1.0.0",
   "description": "A light-weight javascript to create particle animation using HTML5 canvas",
-  "main": "script.js",
+  "main": "particle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
