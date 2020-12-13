@@ -10,7 +10,7 @@
 	
 	// Wrapper function for our library that will contain all our methods
 	/*
-	* @return {prepare, start, pause, stop} methods to control the particle animation 
+	* @return {prepare, start, stop} methods to control the particle animation 
 	*/
 	function _self() {
 		// Private variables
@@ -147,12 +147,6 @@
 			_refresh();
 		}
 
-		// Method to pause the particle animation on the canvas
-		function pause() {
-			window.cancelAnimationFrame(_frame);
-			_flush();
-		}
-
 		// Method to stop the particle animation on the canvas
 		function stop() {
 			window.cancelAnimationFrame(_frame);
@@ -163,7 +157,6 @@
 		return {
 			prepare: prepare,
 			start: start,
-			pause: pause,
 			stop: stop
 		}
 	}
