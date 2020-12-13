@@ -7,5 +7,21 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "thenocturnalguy",
-  "license": "MIT"
+  "license": "MIT",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thenocturnalguy/fireworks-effect-using-js.git"
+  },
+  "keywords": [
+    "particle animation",
+    "html5 canvas",
+    "particle js",
+  ],
+  "bugs": {
+    "url": "https://github.com/thenocturnalguy/fireworks-effect-using-js/issues"
+  },
+  "homepage": "https://github.com/thenocturnalguy/fireworks-effect-using-js#readme"
 }

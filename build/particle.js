@@ -2,12 +2,16 @@
 * Paricle.js 
 * @author thenocturnalguy
 * @date 13-12-2020
+* @license MIT
 */
 
 (function(window) {
 	'use strict';
 	
 	// Wrapper function for our library that will contain all our methods
+	/*
+	* @return {prepare, start, pause, stop} methods to control the particle animation 
+	*/
 	function _self() {
 		// Private variables
 		let _ctx, 									// stores the context of the animation
@@ -111,6 +115,14 @@
 		// Public methods
 
 		// Method to initialise the required variables
+		/*
+		* ele 		@param canvas element to visualise the animation
+		* width 	@param width of the canvas
+		* height 	@param height of the canvas
+		* colorsArr @param colors to be used for each particle 
+		* nPart 	@param number of particles to be formed on the canvas
+		* mouseFlag @param whether to capture mouse-movements for interactive animation
+		*/
 		function prepare(ele, width, height, colorsArr, nPart = 80, mouseFlag = true) {
 			area = ele;
 			area.width = width;
