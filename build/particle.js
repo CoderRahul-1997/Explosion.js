@@ -116,12 +116,12 @@
 
 		// Method to initialise the required variables
 		/*
-		* ele 		@param canvas element to visualise the animation
-		* width 	@param width of the canvas
-		* height 	@param height of the canvas
-		* colorsArr @param colors to be used for each particle 
-		* nPart 	@param number of particles to be formed on the canvas
-		* mouseFlag @param whether to capture mouse-movements for interactive animation
+		* @param (ele) 		 canvas element to visualise the animation
+		* @param (width) 	 width of the canvas
+		* @param (height) 	 height of the canvas
+		* @param (colorsArr)  colors to be used for each particle 
+		* @param (nPart) 	 number of particles to be formed on the canvas
+		* @param (mouseFlag)  whether to capture mouse-movements for interactive animation
 		*/
 		function prepare(ele, width, height, colorsArr, nPart = 80, mouseFlag = true) {
 			area = ele;
