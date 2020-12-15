@@ -6,6 +6,10 @@
 * @license MIT
 */
 
+/*
+* @bugs Interactivity not working properly for one or more instances
+*/
+
 (function(window) {
 	'use strict';
 
