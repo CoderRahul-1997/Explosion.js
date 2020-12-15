@@ -1,5 +1,5 @@
 {
-  "name": "particles",
+  "name": "particle",
   "version": "1.0.0",
   "description": "A light-weight javascript to create particle animation using HTML5 canvas",
   "main": "particle.js",

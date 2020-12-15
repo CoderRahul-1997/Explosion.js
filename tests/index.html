@@ -3,19 +3,34 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Particles.js - Light weight particles animation library</title>
+		<title>Particle.js - Light weight particles animation library</title>
+		<style type="text/css">
+			canvas {
+				border: 2px solid red;
+			}
+		</style>
 	</head>
-	<body>
-		<canvas id="particles"></canvas>
-	</body>
+	<body><div class="container"></div></body>
 	<script type="text/javascript" src="../dist/particle.js"></script>
 	<script type="text/javascript">
-		Particles.prepare(document.querySelector('#particles'), 640, 480, [
+		// Creating an instance of Particles
+		let particlesInstance1 = new Particles(document.querySelector('.container'), 640, 480, [
 			'#8e69ff',
 			'#c680ff',
 			'#ffffff'
 		], 80, true);
-		
-		Particles.start();
+
+		// Starting the particles animation on the canvas 
+		particlesInstance1.start();
+
+		// Creating an instance of Particles
+		let particlesInstance2 = new Particles(document.querySelector('.container'), 640, 480, [
+			'#8e69ff',
+			'#c680ff',
+			'#ffffff'
+		], 80, true);
+
+		// Starting the particles animation on the canvas 
+		particlesInstance2.start();
 	</script>
 </html>
