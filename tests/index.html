@@ -11,10 +11,10 @@
 		</style>
 	</head>
 	<body><div class="container"></div></body>
-	<script type="text/javascript" src="../dist/particle.js"></script>
+	<script type="text/javascript" src="../build/particle.js"></script>
 	<script type="text/javascript">
 		// Creating an instance of Particles
-		let particlesInstance1 = new Particles(document.querySelector('.container'), 640, 480, [
+		let particlesInstance1 = Particles(document.querySelector('.container'), 640, 480, [
 			'#8e69ff',
 			'#c680ff',
 			'#ffffff'
@@ -24,7 +24,7 @@
 		particlesInstance1.start();
 
 		// Creating an instance of Particles
-		let particlesInstance2 = new Particles(document.querySelector('.container'), 640, 480, [
+		let particlesInstance2 = Particles(document.querySelector('.container'), 640, 480, [
 			'#8e69ff',
 			'#c680ff',
 			'#ffffff'
