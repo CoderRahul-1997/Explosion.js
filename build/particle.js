@@ -2,165 +2,163 @@
 * Paricle.js 
 * @author thenocturnalguy
 * @date 13-12-2020
-* @updated 16-12-2020
+* @updated 18-12-2020
 * @license MIT
 */
 
-/*
-* @bugs Interactivity not working properly for one or more instances
-*/
-
 (function(window) {
-	'use strict';
+	const MAX_RADIUS = 50;  // Stores the maximum radius of an individual particle
+	const MIN_RADIUS = 3;	// Stores the minimum radius of an individual particle
 
-	// Particles module to display the particle floating animation on the canvas
+	// Particle object to simulate each particle on the screen
 	/*
-	* @param (ele) 		 			canvas element to visualise the animation
-	* @param (width) 	 			width of the canvas
-	* @param (height) 	 			height of the canvas
-	* @param (colors) 				colors to be used for each particle 
-	* @param (numParticles) 	 	number of particles to be formed on the canvas
-	* @param (shouldCaptureMouse) 	whether to capture mouse-movements for interactive animation
+	* @param (x) 				x-coordinate of the particle
+	* @param (y) 				y-coordinate of the particle
+	* @param (vx) 				velocity along x-axis of the particle
+	* @param (vy) 				velocity along y-axis of the particle
+	* @param (radius) 			radius of the particle
+	* @param (color) 			color of the particle
+	* @param (isInteractive) 	whether to capture mouse-movements for interactive animation
 	*/
-	function Particles(ele, width, height, colors, numParticles = 80, shouldCaptureMouse = true) {
-
-		// Below written variables should be treated as public variables
-		this.area = document.createElement('canvas');   // stores the canvas element
-		this.area.setAttribute('class', '_particlesCanvas_');
-		this.area.width = width;
-		this.area.height = height;
-		this.colors = colors;                           // stores the color array for the particles
-		this.numParticles = numParticles;				// stores the number of particles to be drawn
-		this.shouldCaptureMouse = shouldCaptureMouse;	// stores whether to animate for mouse-movements
-
-		// Below written variables should be treated as private variables
-		this._ctx = this.area.getContext('2d');			// stores the context of the animation
-		this._particles = [];							// stores all the particles on the screen
-		this._maxRadius;								// stores the maximum radius of expansion
-		this._minRadius = Math.random() * 4 + 2;		// stores the minimum radius of contraction
-		this._mouse = {};								// stores he coordinates of the mouse pointer
-		this._frame;									// stores the frame at each frame refresh
-
-		ele.appendChild(this.area);
-
-		// Capturing the mouse events for interactive animation
-		if (this.shouldCaptureMouse) {
-			(function(self, ele) {
-				ele.addEventListener('mousemove', function(event) {
-					self._mouse.x = event.x;
-					self._mouse.y = event.y;
-				});
-			})(this, this.area);
-		}
+	function Particle(x, y, vx, vy, radius, color, isInteractive) {
+		this.x = x;								// Stores the x-coordinate of the particle
+		this.y = y;								// Stores the y-coordinate of the particle
+		this.vx = vx;							// Stores the velocity along x-axis for the particle
+		this.vy = vy;							// Stores the velocity along y-axis for the particle
+		this.radius = radius;					// Stores the radius of the particle
+		this.color = color;						// Stores the color of the particle
+		this.isInteractive = isInteractive;		// Stores the flag for interactive animation
 	}
 
-	// Adding functionalities to the module prototype
-	Particles.prototype = {
+	Particle.prototype = {
 
-		/* Utility functions starts here */
-		// Method to initialize each particle object
-		_init: function(particle) {
-			particle.x = Math.random() * (this.area.width);
-			particle.y = Math.random() * (this.area.height);
-			particle.vx = (Math.random() - 0.5) * 1;
-			particle.vy = (Math.random() - 0.5) * 1;
-			particle.radius = Math.random() * 4 + 2;
-			particle.color = this.colors[Math.floor(Math.random() * this.colors.length)];
-		},
+		// Function to update a particle motion on the canvas
+		update: function(elem, mouse) {
+			// Checking the corner case for horizantal overflow
+			if (this.x > (elem.width - this.radius) ||
+				this.x < this.radius) {
+				this.vx = -this.vx;
+			}
 
-		// Method to update each individual particle object
-		_update: function() {
-			this._particles.forEach(particle => {
-				// Checking the corner case for horizantal overflow
-				if (particle.x > (this.area.width - particle.radius) ||
-					particle.x < particle.radius) {
-					particle.vx = -particle.vx;
-				}
+			// Checking the corner case for vertical overflow
+			if (this.y > (elem.height - this.radius) ||
+				this.y < this.radius) {
+				this.vy = -this.vy;
+			}
 
-				// Checking the corner case for vertical overflow
-				if (particle.y > (this.area.height - particle.radius) ||
-					particle.y < particle.radius) {
-					particle.vy = -particle.vy;
-				}
+			// Updating the position of an individual this object
+			this.x += this.vx;
+			this.y += this.vy;
 
-				// Updating the position of an individual particle object
-				particle.x += particle.vx;
-				particle.y += particle.vy;
-
-				// Expanding and contracting a particle on mouse hover
-				if (this.shouldCaptureMouse) {
-					if (this._mouse.x - particle.x < this._maxRadius && 
-						this._mouse.x - particle.x > -this._maxRadius && 
-						this._mouse.y - particle.y < this._maxRadius && 
-						this._mouse.y - particle.y > -this._maxRadius) {
-						if (particle.radius < this._maxRadius) {
-							particle.radius += 8;
-						}
-					}
-					else if (particle.radius > this._minRadius) {
-						particle.radius -= 1;
+			// Expanding and contracting a this on mouse hover
+			if (this.isInteractive) {
+				if (mouse.x - this.x < MAX_RADIUS && 
+					mouse.x - this.x > -MAX_RADIUS && 
+					mouse.y - this.y < MAX_RADIUS && 
+					mouse.y - this.y > -MAX_RADIUS) {
+					if (this.radius < MAX_RADIUS) {
+						this.radius += 8;
 					}
 				}
-				// Finally, drawing the updated particle on the canvas
-				this._draw(particle);
-			});	
-		},
-
-		// Method to draw each particle object on the canvas
-		_draw: function(particle) {
-			this._ctx.beginPath();
-			this._ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2, false);
-			this._ctx.fillStyle = particle.color;
-			this._ctx.fill();
-			this._ctx.closePath();
-		},
-
-		// Method to add each particle object into the _particles array
-		_add: function() {
-			let particle = {};
-			if (this._particles.length < this.numParticles) {
-				this._init(particle);
-				this._particles.push(particle);	
+				else if (this.radius > MIN_RADIUS) {
+					this.radius -= 1;
+				}
 			}
 		},
 
-		// Method to flush all the particle object from the _particles array
+		// Function to draw a particle on the canvas
+		draw: function(ctx) {
+			ctx.beginPath();
+			ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+			ctx.fillStyle = this.color;
+			ctx.fill();
+			ctx.closePath();
+		}
+	}
+
+	// Animate object to perform our desired animation using the particles
+	/*
+	* @param (elem) 		 	canvas element to visualise the animation
+	* @param (ctx) 	 			context of the canvas animation
+	* @param (colors) 			colors to be used for each particle 
+	* @param (numParticles) 	number of particles to be formed on the canvas
+	* @param (isInteractive) 	whether to capture mouse-movements for interactive animation
+	*/ 
+	function Animate(elem, ctx, colors, numParticles, isInteractive) {
+
+		// Below written variables should be considered as public
+		this.elem = elem;						// Stores the canvas html element
+		this.ctx = ctx;							// Stores the context variable of the canvas
+		this.colors = colors;					// Stores the colors array
+		this.numParticles = numParticles;		// Stores the number of particles to be rendered
+		this.isInteractive = isInteractive;		// Stores the flag for interactive animation
+		
+		// Below written variables should be considered as private
+		this._particles = [];					// Stores the particle objects to be rendered 
+		this._mouse = {};						// Stores the mouse coordinates
+		this._frame;							// Stores the frame for animation
+	}
+
+	Animate.prototype = {
+
+		/* Utility functions starts here */
+		// Helper function to clear the _particles array
 		_flush: function() {
 			this._particles.splice(0, this.numParticles);
 		},
 
-		// Method to add all the created particle object in the _particles array
-		_push: function() {
+		// Function to prepare the canvas and scatter the particles in the canvas
+		_prepare: function() {
+			let i, radius;
 			this._flush();
-			if (this.area.width < this.numParticles) {
-				this._maxRadius = 20;
-			} else if (this.area.width > this.numParticles) {
-				this._maxRadius = 50;
+			for (i = 0; i < this.numParticles; ++i) {
+				radius = Math.random() * 4 + 2;
+				this._particles.push(
+					new Particle(
+						Math.random() * (this.elem.width - 2 * radius) + radius,
+						Math.random() * (this.elem.height - 2 * radius) + radius,
+						(Math.random() - 0.5) * 1,
+						(Math.random() - 0.5) * 1,
+						radius,
+						this.colors[Math.floor(Math.random() * this.colors.length)],
+						this.isInteractive
+					)
+				);
 			}
-		 	for (let i = 0; i < this.numParticles; ++i) {
-		 		this._add();
-		 	}
+
+			// Capturing mouse events for interactive animation
+			if (this.isInteractive) {
+				(function(self, elem) {
+					elem.addEventListener('mousemove', function(event) {
+						self._mouse.x = event.clientX;
+						self._mouse.y = event.clientY; 
+					})
+				})(this, this.elem);
+			}
 		},
 
-		// Method to refresh the canvas frame
-		_refresh: function() {
-			this._frame = window.requestAnimationFrame(this._refresh.bind(this));
-			this._ctx.clearRect(0, 0, this.area.width, this.area.height);
-			this._update();
+		// Function to render the animation on the canvas
+		_render: function() {
+			this._frame = window.requestAnimationFrame(this._render.bind(this));
+			this.ctx.clearRect(0, 0, this.elem.width, this.elem.height);
+			this._particles.forEach(particle => {
+				particle.update(this.elem, this._mouse);
+				particle.draw(this.ctx);
+			}); 
 		},
 		/* Utility functions ends here */
 
 		/* Control functions starts here */
-		// Method to start the particle animation on the canvas
+		// Function to start the particle animation
 		start: function() {
-			this._push();
-			this._refresh();
+			this._prepare();
+			this._render();
 		},
 
-		// Method to stop the particle animation on the canvas
+		// Function to stop the particle animation
 		stop: function() {
 			window.cancelAnimationFrame(this._frame);
-			this._ctx.clearRect(0, 0, this.area.width, this.area.height);
+			this.ctx.clearRect(0, 0, this.elem.width, this.elem.height);
 			this._flush();
 		}
 		/* Control functions ends here */
@@ -169,24 +167,31 @@
 	// Our library wrapper to provide abstration and encapsulation to our Particles module
 	/*
 	* @return {start, stop} 		methods to control the particle animation 
-	* @param (ele) 		 			canvas element to visualise the animation
-	* @param (width) 	 			width of the canvas
-	* @param (height) 	 			height of the canvas
+	* @param (parent) 		 		canvas element to visualise the animation
+	* @param (dim) 	 				dimension of the canvas
 	* @param (colors) 				colors to be used for each particle 
 	* @param (numParticles) 	 	number of particles to be formed on the canvas
-	* @param (shouldCaptureMouse) 	whether to capture mouse-movements for interactive animation
+	* @param (isInteractive) 		whether to capture mouse-movements for interactive animation
 	*/ 
-	function _wrapper_(ele, width, height, colors, numParticles = 80, shouldCaptureMouse = true) {
-		// Creating the instance of the Particles module
-		let particles = new Particles(ele, width, height, colors, numParticles, shouldCaptureMouse);
+	function __lib__(parent, dim, colors, numParticles = 80, isInteractive = true) {
+
+		// Below written variables should be treated as public 
+		let elem = document.createElement('canvas');
+		elem.width = dim.width;
+		elem.height = dim.height;
+		parent.appendChild(elem);
+
+		// Below written variables should be treated as private
+		let _ctx = elem.getContext('2d');
+		let _anim = new Animate(elem, _ctx, colors, numParticles, isInteractive);
 
 		return {
-			start: particles.start.bind(particles),
-			stop: particles.stop.bind(particles)
+			start: _anim.start.bind(_anim),
+			stop: _anim.stop.bind(_anim)
 		}
 	}
 
-	// Create an alias of your library in the global scope
-	window.Particles = _wrapper_;
+	// Creating an alias of the __lib__ in the global scope 
+	window.Particles = __lib__;
 
 })(window);

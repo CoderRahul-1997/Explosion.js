@@ -14,23 +14,37 @@
 	<script type="text/javascript" src="../build/particle.js"></script>
 	<script type="text/javascript">
 		// Creating an instance of Particles
-		let particlesInstance1 = Particles(document.querySelector('.container'), 640, 480, [
-			'#8e69ff',
-			'#c680ff',
-			'#ffffff'
-		], 80, true);
+		let particlesInstance1 = Particles(document.querySelector('.container'), 
+			{
+				width: 640, 
+				height: 480
+			}, 
+			[
+				'#8e69ff',
+				'#c680ff',
+				'#ffffff'
+			], 
+		80, true);
 
 		// Starting the particles animation on the canvas 
 		particlesInstance1.start();
 
 		// Creating an instance of Particles
-		let particlesInstance2 = Particles(document.querySelector('.container'), 640, 480, [
-			'#8e69ff',
-			'#c680ff',
-			'#ffffff'
-		], 80, true);
+		let particlesInstance2 = Particles(document.querySelector('.container'), 
+			{
+				width: 640, 
+				height: 480
+			}, 
+			[
+				'#8e69ff',
+				'#c680ff',
+				'#ffffff'
+			], 
+		80, true);
 
 		// Starting the particles animation on the canvas 
 		particlesInstance2.start();
+
+			
 	</script>
 </html>
