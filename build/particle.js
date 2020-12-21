@@ -181,6 +181,17 @@
 		elem.height = dim.height;
 		parent.appendChild(elem);
 
+		// Responsiveness on resizing the canvas
+		window.addEventListener('resize', function(event) {
+			if (window.innerWidth < dim.width || window.innerHeight < dim.height) {
+				elem.width = window.innerWidth;
+				elem.height = window.innerHeight;
+			} else {
+				elem.width = dim.width;
+				elem.height = dim.height;
+			}
+		});
+
 		// Below written variables should be treated as private
 		let _ctx = elem.getContext('2d');
 		let _anim = new Animate(elem, _ctx, colors, numParticles, isInteractive);
